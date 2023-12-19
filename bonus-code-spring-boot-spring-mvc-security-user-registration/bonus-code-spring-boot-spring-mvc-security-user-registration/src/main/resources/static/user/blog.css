@@ -1,0 +1,85 @@
+ body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .card {
+            position: relative;
+            background: #f8f8ff;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            flex: 1 1 300px;
+            overflow: hidden;
+            cursor: pointer;
+            max-width: 300px;
+            box-shadow:5px 5px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .card::before {
+            content: "";
+            background: rgba(0, 0, 0, 0.7);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            z-index: 1;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        .card-content {
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            color: #fff;
+            z-index: 2;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        .card-content h3 {
+            margin: 0;
+            padding-bottom: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .card-content p {
+            margin: 0;
+            padding-top: 10px;
+            font-size: 0.8em;
+        }
+
+        @media (max-width: 1200px) {
+            .card {
+                flex: 1 1 45%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                flex: 1 1 100%;
+            }
+        }
+        h3{
+        color:black;
+        }

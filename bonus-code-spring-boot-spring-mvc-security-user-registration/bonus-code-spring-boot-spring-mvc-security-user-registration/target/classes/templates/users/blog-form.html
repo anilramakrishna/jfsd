@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="blog-form.css" rel="stylesheet">
+</head>
+
+<body>
+<button class="homebutton"><a th:href="@{/}">Go To Home</a></button>
+
+<div class="container">
+  <form  th:action="@{/user/save-blog(name=${#authentication.principal.username})}" th:object="${blog}" id="contact" method="POST">
+<!--    <h2>Post Your Blog Here</h2>-->
+<!--    <input type="hidden" th:field="*{id}">-->
+<!--    <div class="form-group">-->
+<!--      <label>Username</label>-->
+<!--      <input type="text"  name="username" th:field="*{username}">-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--      <label>Blog Title</label>-->
+<!--      <input type="text" th:field="*{title}"  name="title" required>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--    <label>Category</label>-->
+<!--    <select th:field="*{category}" name="category">-->
+<!--      <option value="tv_shows">TV Shows</option>-->
+<!--      <option value="movies">Movies</option>-->
+<!--      <option value="sports">Sports</option>-->
+<!--      <option value="technology">Technology</option>-->
+<!--      <option value="gadgets">Gadgets</option>-->
+<!--      <option value="food">Food</option>-->
+<!--    </select>-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--  <label>Image Url</label>-->
+<!--  <input type="text" th:field="*{image}" name="image" >-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--  <label>Content</label>-->
+<!--  <textarea th:field="*{content}" name="content" rows="6" required></textarea>-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--  <input type="submit" value="Submit">-->
+<!--</div>-->
+        <h3>Quick Blog</h3>
+        <h4>Write a quick blog.</h4>
+        <fieldset>
+            <input placeholder="Your name" type="hidden" tabindex="1" required autofocus>
+        </fieldset>
+<!--        <fieldset>-->
+<!--            <input type="text" name="username" th:field="*{username}" placeholder="Enter Username" th:value="anil123">-->
+
+<!--        </fieldset>-->
+        <fieldset>
+          <input type="text" th:field="*{title}"  name="title" placeholder="Title" required>
+        </fieldset>
+        <fieldset>
+            <select th:field="*{category}" name="category" class="category">
+                      <option value="tv_shows">TV Shows</option>
+                      <option value="movies">Movies</option>
+                      <option value="sports">Sports</option>
+                      <option value="technology">Technology</option>
+                      <option value="gadgets">Gadgets</option>
+                      <option value="food">Food</option>
+            </select>
+        </fieldset>
+        <fieldset>
+            <input type="text" th:field="*{image}" name="image" placeholder="Image Url">
+        </fieldset>
+        <fieldset>
+          <textarea placeholder="Type your Message Here...." th:field="*{content}"  tabindex="5" required></textarea>
+        </fieldset>
+        <fieldset>
+          <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+        </fieldset>
+                    </div>
+                </form>
+                </div>
+                </body>
+
+                </html>

@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="en"><html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <style>
+    #title{
+    background-color:black;
+    }
+        .big {
+            padding: 20px 40px;
+        }
+
+        .form {
+            padding-left: 260px;
+        }
+    </style>
+    <link href="navbar.css" rel="stylesheet">
+</head>
+
+<body>
+<section id="title1">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="#">BLOGGER</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" th:href="@{/}">Home <span
+                            class="sr-only"></span></a>
+                    <a class="nav-item nav-link active" th:href="@{blogs}">Blogs</a>
+                    <a sec:authorize="hasRole('MANAGER')" class="nav-item nav-link active" th:href="@{blog-form}">Create Blog</a>
+                    <a class="nav-item nav-link active" href="#">Contact Us</a>
+                    <a sec:authorize="hasRole('ADMIN')" class="nav-item nav-link active" th:href="@{/admin}">Management</a>
+                </div>
+            </div>
+            <a class="mess" sec:authorize="isAuthenticated()" th:text="${#authentication.principal.username}" th:href="@{/user/profile(username1=${#authentication.principal.username})}"></a>
+
+            <form  sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="POST">
+                <input type="submit" value="Logout"/>
+            </form>
+            <div class="navbar-text" th:unless="${#authorization.expression('isAuthenticated()')}">
+                <a th:href="@{/showMyLoginPage}"><button class="btn btn-primary" type="button">Login</button></a> &nbsp;
+                <a href="#"><button class="btn btn-primary" type="button">Signup</button></a>
+            </div>
+
+        </nav>
+    </div>
+</section>
+<div class="container">
+    <!--Section: Contact v.2-->
+    <!--Section heading-->
+    <h2 class="h1-responsive font-weight-bold text-center my-4">Contact us</h2>
+    <!--Section description-->
+    <center>
+        <p>Do you have any questions? Please do not hesitate to
+            contact us directly.</p>
+        <p>Our team will come back to you within
+            a matter of hours to help you.</p>
+    </center>
+    <section class="mb-4 form">
+
+
+
+        <div class="row">
+
+            <!--Grid column-->
+            <div class="col-md-9 mb-md-0 mb-5">
+                <form method="POST" th:action="@{/user/saveform}" th:object="${form}">
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-md-6 big">
+                            <div class="md-form mb-0">
+                                <input type="text" placeholder="Your name"  name="name"
+                                       class="form-control" th:field="*{name}">
+
+                            </div>
+                        </div>
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div class="col-md-6 big">
+                            <div class="md-form mb-0">
+                                <input type="text" placeholder="Your email"  name="email"
+                                       class="form-control" th:field="*{email}">
+
+                            </div>
+                        </div>
+                        <!--Grid column-->
+
+                    </div>
+                    <!--Grid row-->
+
+                    <!--Grid row-->
+                    <div class="row">
+                        <div class="col-md-12 big">
+                            <div class="md-form mb-0">
+                                <input type="text" placeholder="Subject"  name="subject"
+                                       class="form-control" th:field="*{subject}">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--Grid row-->
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-md-12 big">
+
+                            <div class="md-form">
+                                    <textarea type="text" placeholder="Your message"  name="message"
+                                              rows="2" class="form-control md-textarea" th:field="*{message}"></textarea>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="text-center text-md-left">
+                        <button class="btn btn-dark" type="submit">Send</button>
+                    </div>
+                </form>
+            </div>
+            <div class="status"></div>
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+
+        <!--Grid column-->
+
+</div>
+
+</section>
+<!--Section: Contact v.2-->
+</div>
+<center>
+    <div class="add">
+        <ul class="list-unstyled mb-0">
+            <li><i class="fas fa-map-marker-alt fa-2x"></i>
+                <p>Vijayawada, Andhra pradesh</p>
+            </li>
+
+            <li><i class="fas fa-phone mt-4 fa-2x"></i>
+                <p>+918179291329</p>
+            </li>
+
+            <li><i class="fas fa-envelope mt-4 fa-2x"></i>
+                <p>blogger@gmail.com</p>
+            </li>
+        </ul>
+    </div>
+</center>
+<!-- Footer start -->
+<footer class="py-3 my-4 bg-dark">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="#" class="nav-link px-2" style="color:#fff ;">About Us</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2" style="color:#fff ;">Agents</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2" style="color:#fff ;">Categories</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2" style="color:#fff ;">Contact Us</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2" style="color:#fff ;">Blogs</a>
+        </li>
+    </ul>
+    <p class="text-center text-muted">&copy; 2023 Blogger, Inc</p>
+</footer>
+<!-- Footer end -->
+</body>
+
+</html>

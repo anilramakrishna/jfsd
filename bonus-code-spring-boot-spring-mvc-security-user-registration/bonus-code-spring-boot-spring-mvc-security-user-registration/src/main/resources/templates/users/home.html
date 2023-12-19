@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <title>Document</title>
+  <style>
+        .mess {
+            color: white;
+            font-size: 18px;
+            margin-right: 20px;
+        }
+
+        #title1 {
+            background-color: #000;
+        }
+
+        .nav-item nav-link active {
+            padding: 0 15px;
+        }
+
+        /* #title .container {
+            background-color: #000;
+            position: fixed;
+            z-index: 2;
+            top: 0;
+            padding-left: 110px;
+        } */
+    </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>TerraBlog</title>
+  <meta content="" name="description">
+
+  <meta content="" name="keywords">
+
+
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="icon">
+  <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <link href="home.css" rel="stylesheet">
+
+</head>
+
+<section id="title1">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <a class="navbar-brand" href="#">BLOGGER</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="#">Home <span
+                  class="sr-only"></span></a>
+          <a class="nav-item nav-link active" th:href="@{user/blogs}">Blogs</a>
+          <a sec:authorize="hasRole('MANAGER')" class="nav-item nav-link active" th:href="@{user/blog-form}">Create Blog</a>
+          <a class="nav-item nav-link active" th:href="@{user/contact}">Contact Us</a>
+          <a sec:authorize="hasRole('ADMIN')" class="nav-item nav-link active" th:href="@{/admin}">Management</a>
+          <a class="nav-item nav-link active" sec:authorize="isAuthenticated()" th:href="@{user/wishlists(username1=${#authentication.principal.username})}">Wishlist</a>
+        </div>
+      </div>
+      <a class="mess" sec:authorize="isAuthenticated()" th:text="${#authentication.principal.username}" th:href="@{/user/profile(username1=${#authentication.principal.username})}"></a>
+
+      <form  sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="POST">
+        <input type="submit" value="Logout"/>
+      </form>
+      <div class="navbar-text" th:unless="${#authorization.expression('isAuthenticated()')}">
+        <a th:href="@{/showMyLoginPage}"><button class="btn btn-primary" type="button">Login</button></a> &nbsp;
+        <a href="#"><button class="btn btn-primary" type="button">Signup</button></a>
+      </div>
+
+    </nav>
+  </div>
+</section>
+<!-- ======= Header ======= -->
+<!-- <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+        <a href="index.html#" class="logo d-flex align-items-center">
+            <img src="assets/img/logo.png" alt="">
+            <span>TerraBlog</span>
+        </a>
+
+        <nav class="navbar">
+            <ul>
+                <li><a class="nav-link scrollto active" href="index.html#">Home </a></li> <i
+                    class="fa-solid fa-house"></i>
+                <li><a class="nav-link scrollto" href="index.html#">All tags</a></li><i
+                    class="fa-solid fa-tags"></i>
+                <li><a href="index.html#">All Blogs</a></li> <i class="fa-solid fa-book"></i>
+                <li><a href="https://terrablog.com/signup"
+                        class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center"><span>SignUp<i
+                                class="bi bi-door-open"></i></span></a></li>
+                <li> <a href="https://terrablog.com/login"
+                        class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center"><span>Login<i
+                                class="bi bi-person"></i></span></a></li>
+
+                <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+
+<!-- </div>
+</header>End Header -->
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="hero d-flex align-items-center">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 d-flex flex-column justify-content-center">
+        <h1 data-aos="fade-up"> Community Blogging Platform for all Tech Readers and Writers </h1>
+        <h2 data-aos="fade-up" data-aos-delay="400">Open platform to share and Discuss your ideas and to
+          Learn about New Technologies</h2>
+        <div data-aos="fade-up" data-aos-delay="600">
+          <div class="text-center text-lg-start">
+
+
+
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+        <img src="image1.jpg" class="img-fluid" alt="">
+      </div>
+    </div>
+  </div>
+
+</section><!-- End Hero -->
+<!-- ======= Values Section ======= -->
+<section id="values" class="values">
+
+  <div class="container" data-aos="fade-up">
+
+    <header class="section-header">
+      <p>Why Should you use Blogger ??</p>
+    </header>
+
+    <div class="row">
+
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="box">
+          <img src="image2.jpg" class="img-fluid" alt="">
+          <h3>Pay-Wall less Blog Articles</h3>
+          <p>Free of charge to read and write for all the users .</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
+        <div class="box">
+          <img src="image3.jpg" class="img-fluid" alt="">
+          <h3> Competitive Leaderboard.</h3>
+          <p>LeaderBoard allow
+            s you to be Competative in writing Articles.</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="600">
+        <div class="box">
+          <img src="image4.jpg" class="img-fluid" alt="">
+          <h3>Tags Based Categorization and Blog Notification.</h3>
+          <p>Tag based Search help to efficiently narrow down your search Area.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section><!-- End Values Section -->
+
+
+
+<!-- ======= Features Section ======= -->
+<body id="features" class="features">
+
+  <div class="container" data-aos="fade-up">
+
+    <header class="section-header">
+      <p>Features of Blogger</p>
+    </header>
+
+    <div class="row">
+
+      <div class="col-lg-6">
+        <img src="image5.jpg" class="img-fluid" alt="">
+      </div>
+
+      <div class="col-lg-6 mt-5 mt-lg-0 d-flex">
+        <div class="row align-self-center gy-4">
+
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="300">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Hot Blogs</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="400">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Tags Based Search</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="500">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Follow Tags for New Blog Notifications</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="700">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Blog Ratings</h3>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div> <!-- / row -->
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+
+      <div class="container" data-aos="fade-up">
+
+        <header class="section-header">
+          <h2>Services</h2>
+          <p>Featured Blog Categories</p>
+        </header>
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-box blue">
+              <i class="icon fa-solid fa-cloud"></i>
+              <h3>Food</h3>
+              <p>Blogs about Food.</p>
+              <a th:href="@{user/foodblogs}" class="read-more"><span>Read
+                                        More</span>
+                <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-box orange">
+              <i class="icon fa-sharp fa-solid fa-chart-simple"></i>
+              <h3>TV Shows</h3>
+              <p>Blogs about TV Shows.</p>
+              <a th:href="@{user/showsblogs}" class="read-more"><span>Read More</span>
+                <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-box green">
+              <i class="icon fa-solid fa-globe"></i>
+              <h3>Movies</h3>
+              <p>Blogs about famous Movies.</p>
+              <a th:href="@{user/moviesblogs}" class="read-more"><span>Read
+                                        More</span> <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+            <div class="service-box red">
+              <i class="icon fa-solid fa-user-secret"></i>
+              <h3>Technology</h3>
+              <p>Blogs regarding Technology.
+              </p>
+              <a th:href="@{user/technologyblogs}" class="read-more"><span>Read
+                                        More</span> <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+            <div class="service-box purple">
+              <i class="icon fa-solid fa-brain"></i>
+              <h3>Sports.</h3>
+              <p>Blogs are related to Sports .</p>
+              <a th:href="@{user/sportsblogs}" class="read-more"><span>Read More</span> <i
+                      class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="700">
+            <div class="service-box pink">
+              <i class="icon fa-solid fa-laptop-code"></i>
+              <h3>Gadgets</h3>
+              <p>Blogs about Gadgets .</p>
+              <a th:href="@{user/gadgetsblogs}" class="read-more"><span>Read More</span>
+                <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+              class="bi bi-arrow-up-short"></i></a>
+
+      <!-- Vendor JS Files -->
+      <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+      <script src="assets/vendor/aos/aos.js"></script>
+      <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+      <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+      <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+      <script src="assets/vendor/php-email-form/validate.js"></script>
+
+      <!-- Template Main JS File -->
+      <script src="assets/js/main.js"></script>
+    </section>
+  </div>
+</body>
+<footer class="py-3 my-4 bg-dark">
+  <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+    <li class="nav-item"><a href="#" class="nav-link px-2" style="color:#fff ;">About Us</a></li>
+    <li class="nav-item"><a href="#" class="nav-link px-2" style="color:#fff ;">Agents</a></li>
+    <li class="nav-item"><a href="#" class="nav-link px-2" style="color:#fff ;">Categories</a></li>
+    <li class="nav-item"><a href="#" class="nav-link px-2" style="color:#fff ;">Contact Us</a></li>
+    <li class="nav-item"><a href="#" class="nav-link px-2" style="color:#fff ;">Blogs</a>
+    </li>
+  </ul>
+  <p class="text-center text-muted">&copy; 2023 Blogger, Inc</p>
+</footer>
+</html>

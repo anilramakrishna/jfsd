@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title>Home Page</title>
+</head>
+
+<body>
+<h2>Home Page</h2>
+<hr>
+
+<p>
+    Welcome to blog  home page!
+</p>
+
+<hr>
+<img src="image2.jpg">
+<!-- display user name and role(s) -->
+<div sec:authorize="isAuthenticated()">
+    User: <span th:with="usernameVar=${#authentication.principal.username}">
+    User: <span th:text="${usernameVar}"></span>
+    <a th:href="@{/user/profile(username1=${usernameVar})}">Profile</a>
+</span>
+    <br><br>
+    Role(s): <span sec:authentication="principal.authorities"></span>
+
+    <!-- display first name, last name, and email -->
+    <div th:if="${session.user}">
+        <p th:text="'First name: ' + ${session.user.firstName} + ', Last name: ' + ${session.user.lastName} + ', Email: ' + ${session.user.email}"></p>
+    </div>
+    <form th:if="${#authentication.getPrincipal() != null}" action="#" th:action="@{/logout}" method="POST">
+        <input type="submit" value="Logout" class="btn btn-outline-primary mt-2" />
+    </form>
+</div>
+<div th:unless="${#authorization.expression('isAuthenticated()')}">
+     <a th:href="@{/showMyLoginPage}">log in</a></p>
+</div>
+
+<div sec:authorize="hasRole('MANAGER')">
+
+    <!-- Add a link to point to /leaders ... this is for the managers -->
+    <p>
+        <a th:href="@{/leaders}">Leadership Meeting</a>
+        (Only for Manager peeps)
+    </p>
+
+</div>
+
+
+<div sec:authorize="hasRole('ADMIN')">
+
+    <!-- Add a link to point to /systems ... this is for the admins -->
+    <p>
+        <a th:href="@{/admin}">Management</a>
+        (Only for Admin peeps)
+    </p>
+
+</div>
+<h1>Hii</h1>
+<hr>
+
+<!-- Add a logout button -->
+
+
+</body>
+
+</html>

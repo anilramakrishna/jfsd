@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="home.css" rel="stylesheet">
+  <title>User Directory</title>
+</head>
+
+<body>
+<section id="title1">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <a class="navbar-brand" th:href="@{/}">BLOGGER</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" th:href="@{/}">Home <span
+                  class="sr-only"></span></a>
+          <a class="nav-item nav-link active" th:href="@{user/blogs}">Blogs</a>
+          <a sec:authorize="hasRole('MANAGER')" class="nav-item nav-link active" th:href="@{user/blog-form}">Create Blog</a>
+          <a class="nav-item nav-link active" th:href="@{user/contact}">Contact Us</a>
+          <a sec:authorize="hasRole('ADMIN')" class="nav-item nav-link active" th:href="@{/admin}">Management</a>
+        </div>
+      </div>
+      <a class="mess" sec:authorize="isAuthenticated()" th:text="${#authentication.principal.username}" th:href="@{/user/profile(username1=${#authentication.principal.username})}"></a>
+
+      <form  sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="POST">
+        <input type="submit" value="Logout"/>
+      </form>
+      <div class="navbar-text" th:unless="${#authorization.expression('isAuthenticated()')}">
+        <a th:href="@{/showMyLoginPage}"><button class="btn btn-primary" type="button">Login</button></a> &nbsp;
+        <a href="#"><button class="btn btn-primary" type="button">Signup</button></a>
+      </div>
+
+    </nav>
+  </div>
+</section>
+
+<div class="container">
+
+  <br>
+  <h3>Users List</h3>
+  <hr>
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>Username</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Actions</th>
+<!--      <th>Action</th>-->
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="tempUser : ${user}">
+      <td th:text="${tempUser.userName}"></td>
+      <td th:text="${tempUser.firstName}" />
+      <td th:text="${tempUser.lastName}" />
+      <td th:text="${tempUser.email}" />
+      <td><a th:href="@{/user/update(userid=${tempUser.id})}" class="btn btn-info sm">Update</a>
+
+        <a th:href="@{/user/delete(userid=${tempUser.id})}" class="btn btn-danger sm" onclick="if (!(confirm('Are you sure to delete this Employee ?'))) return false">Delete</a>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+
+  <br>
+  <h3>blog List:-</h3>
+  <hr>
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>Username</th>
+      <th>Category</th>
+      <th>Title</th>
+      <th>Actions</th>
+      <!--      <th>Action</th>-->
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="tempBlog : ${blog}">
+      <td th:text="${tempBlog.username}"></td>
+      <td th:text="${tempBlog.category}" />
+      <td th:text="${tempBlog.title}" />
+      <td><a th:href="@{/user/blogdetails(blogid=${tempBlog.id})}" class="btn btn-info sm">View</a>
+
+        <a th:href="@{/user/deleteblog(blogid=${tempBlog.id})}" class="btn btn-danger sm" onclick="if (!(confirm('Are you sure to delete this Blog ?'))) return false">Delete</a>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+
+  <br>
+  <h3>Feedback List:-</h3>
+  <hr>
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>name</th>
+      <th>email</th>
+      <th>Subject</th>
+      <th>message</th>
+      <th>Actions</th>
+      <!--      <th>Action</th>-->
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="tempForm : ${theForm}">
+      <td th:text="${tempForm.name}"></td>
+      <td th:text="${tempForm.email}" />
+      <td th:text="${tempForm.subject}" />
+      <td th:text="${tempForm.message}" />
+
+        <td><a th:href="@{/user/deletefeed(feedid=${tempForm.id})}" class="btn btn-danger sm" onclick="if (!(confirm('Are you sure to delete this feedback ?'))) return false">Delete</a>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+
+  <br>
+  <h3>Wishes-list:-</h3>
+  <hr>
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>Username</th>
+      <th>title</th>
+      <th>Category</th>
+      <th>Actions</th>
+      <!--      <th>Action</th>-->
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="tempWish : ${wish}">
+      <td th:text="${tempWish.name}"></td>
+      <td th:text="${tempWish.title}" />
+      <td th:text="${tempWish.category}" />
+
+      <td>
+        <a th:href="@{/user/blogdetails(blogid=${tempWish.bid})}" class="btn btn-info sm" >View</a>
+        <a th:href="@{/user/deletewishlists(id=${tempWish.id})}" class="btn btn-danger sm" onclick="if (!(confirm('Are you sure to delete this wish-blog ?'))) return false">Delete</a>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+</body>
+</html>
+
+
+
